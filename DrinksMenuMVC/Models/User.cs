@@ -1,17 +1,12 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using DrinksMenuMVC.Data.Enums;
+using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
 
 namespace DrinksMenuMVC.Models
 {
-    public enum UserRole
-    {
-        Normal,
-        Contributor,
-        Moderator,
-        Admin
-    }
-
     public class User
     {
+        [Key]
         public int UserId { get; set; }
         public string FullName { get; set; }
         public string Email { get; set; }
