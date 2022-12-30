@@ -14,7 +14,7 @@ namespace DrinksMenuMVC.Models
         public Drink Drink { get; set; }
         public Ingredient Ingredient { get; set; }
 
-        // amount of ingredient for the drink in ml
-        public int Amount { get; set; }
+        // amount of ingredient for the drink
+        public string Amount { get; set; }
     }
 }
