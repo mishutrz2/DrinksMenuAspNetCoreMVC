@@ -8,13 +8,19 @@ namespace DrinksMenuMVC.Models
     {
         [Key]
         public int DrinkId { get; set; }
+        [Display(Name = "Drink Name")]
         public string DrinkName { get; set; }
+        [Display(Name = "Type of Drink")]
         public DrinkType TypeOfDrink { get; set; }
+        [Display(Name = "Description")]
         public string? Description { get; set; }
+        [Display(Name = "Drink Image")]
         public string? DrinkImageUrl { get; set; }
+        [Display(Name = "Status")]
         public DrinkStatus CurrentStatus { get; set; } = DrinkStatus.Pending;
 
         // this property corresponds to the many-to-many relationship between Drink and Ingredient
+        [Display(Name = "Ingredients")]
         public ICollection<DrinkIngredient> DrinkIngredients { get; set; }
 
         // this property corresponds to the many-to-many relationship between User and Drink

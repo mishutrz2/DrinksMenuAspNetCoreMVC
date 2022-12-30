@@ -121,7 +121,7 @@ namespace DrinksMenuMVC.Data
                             DrinkName = "Moscow Mule",
                             TypeOfDrink = Enums.DrinkType.Cocktail,
                             Description = "Fresh and minty drink, perfect for any time of the day.",
-                            DrinkImageUrl = "https://www.acouplecooks.com/wp-content/uploads/2019/06/Moscow-Mule-062.jpg",
+                            DrinkImageUrl = "https://ourbestbites.com/wp-content/uploads/2017/07/Virgin-Moscow-Mule-5-sq.jpg",
                             CurrentStatus = Enums.DrinkStatus.Pending,
                             UserId = 2
                         },
