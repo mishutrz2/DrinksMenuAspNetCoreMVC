@@ -33,6 +33,16 @@ namespace DrinksMenuMVC.Data
             modelBuilder.Entity<UserIngredient>().HasOne(u => u.User).WithMany(ui => ui.UserIngredients).HasForeignKey(u => u.UserId);
             modelBuilder.Entity<UserIngredient>().HasOne(i => i.Ingredient).WithMany(ui => ui.UserIngredients).HasForeignKey(i => i.IngredientId);
 
+            // many-to-many relationship between User and Drink
+            modelBuilder.Entity<UserDrink>().HasKey(ud => new
+            {
+                ud.UserId,
+                ud.DrinkId
+            });
+
+            modelBuilder.Entity<UserDrink>().HasOne(u => u.User).WithMany(ud => ud.UserDrinks).HasForeignKey(u => u.UserId);
+            modelBuilder.Entity<UserDrink>().HasOne(d => d.Drink).WithMany(ud => ud.UserDrinks).HasForeignKey(d => d.DrinkId);
+
             // call base class method
             base.OnModelCreating(modelBuilder);
         }
@@ -42,5 +52,6 @@ namespace DrinksMenuMVC.Data
         public DbSet<Drink> Drinks { get; set; }
         public DbSet<DrinkIngredient> DrinkIngredients { get; set; }
         public DbSet<UserIngredient> UserIngredients { get; set; }
+        public DbSet<UserDrink> UserDrinks { get; set; }
     }
 }

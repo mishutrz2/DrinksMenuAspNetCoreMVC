@@ -17,6 +17,9 @@ namespace DrinksMenuMVC.Models
         // this property corresponds to the many-to-many relationship between Drink and Ingredient
         public ICollection<DrinkIngredient> DrinkIngredients { get; set; }
 
+        // this property corresponds to the many-to-many relationship between User and Drink
+        public ICollection<UserDrink> UserDrinks { get; set; }
+
         // field for one-to-many relationship between User and Drink
         [ForeignKey("UserId")]
         public User User { get; set; }

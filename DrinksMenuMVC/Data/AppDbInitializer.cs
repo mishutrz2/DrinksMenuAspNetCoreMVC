@@ -348,6 +348,35 @@ namespace DrinksMenuMVC.Data
                     context.SaveChanges();
                 }
 
+                // add relationship Users-Drinks
+                if (!context.UserDrinks.Any())
+                {
+                    context.UserDrinks.AddRange(new List<UserDrink>()
+                    {
+                        new UserDrink()
+                        {
+                            UserId = 1,
+                            DrinkId = 1,
+                        },
+                        new UserDrink()
+                        {
+                            UserId = 1,
+                            DrinkId = 2,
+                        },
+                        new UserDrink()
+                        {
+                            UserId = 2,
+                            DrinkId = 2,
+                        },
+                        new UserDrink()
+                        {
+                            UserId = 3,
+                            DrinkId = 1,
+                        },
+                    });
+                    context.SaveChanges();
+                }
+
             }
         }
     }
