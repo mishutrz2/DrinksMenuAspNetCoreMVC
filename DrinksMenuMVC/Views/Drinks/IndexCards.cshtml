@@ -1,11 +1,12 @@
-﻿@model IEnumerable<Drink>
-
+﻿@model Tuple<IEnumerable<Drink>, IEnumerable<Drink>>
 @{
     ViewData["Title"] = "List of Drinks";
 }
 
 <div class="row">
-    @foreach (var item in Model)
+
+    @*This is for the available drinks*@
+    @foreach (var item in Model.Item1)
     {
         <div class="col-md-4 col-xs-6 border-primary mb-3">
             <div class="card mb-3" style="max-width: 540px;">
@@ -48,5 +49,53 @@
                 </div>
             </div>
         </div>
+        i++;
+    }
+
+    @*This is for the drinks that are unavailable*@
+    @foreach (var item in Model.Item2)
+    {
+        <div class="col-md-4 col-xs-6 border-primary mb-3">
+            <div class="card mb-3" style="opacity:0.5;max-width: 540px;">
+                <div class="row g-0">
+                    <div class="col-md-12">
+                        <div class="card-header text-white bg-info">
+                            <p class="card-text">
+                                <h5 class="card-title">
+                                    @item.DrinkName
+                                </h5>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <img src="@item.DrinkImageUrl" width="100%" alt="@item.DrinkName">
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card-body">
+                            <p class="card-text">@item.Description</p>
+                            <p class="card-text"><b>Added by: </b>@item.User.DisplayName</p>
+                            <p class="card-text"><b>Category: </b>@item.TypeOfDrink</p>
+                            <p class="card-text">
+                                <b>Ingredients: </b>
+                                <ul>
+                                    @foreach (var ingredient in item.DrinkIngredients)
+                                    {
+                                        <li>@ingredient.Ingredient.IngredientName</li>
+                                    }
+                                </ul>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="card-footer ">
+                            @*<p class="card-text">
+                        <a class="btn btn-outline-primary float-right"><i class="bi bi-eye-fill"></i> Show Details</a>
+                        </p>*@
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        i++;
     }
 </div>

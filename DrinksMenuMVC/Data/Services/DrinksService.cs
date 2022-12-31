@@ -28,7 +28,7 @@ namespace DrinksMenuMVC.Data.Services
             return result;
         }
 
-        public async Task<IEnumerable<Drink>> GetAllCards()
+        public async Task<IEnumerable<Drink>> GetAllAvailableCards()
         {
             // Get drinks that are available for a certain user
             // set the UserId to 2; will take care of which user is logged in later
@@ -36,6 +36,7 @@ namespace DrinksMenuMVC.Data.Services
 
             // get the drink available for user with UserId = userId
             var availableDrinks = await _context.Drinks
+                .Include(u => u.User)
                 .Include(d => d.DrinkIngredients)
                 .ThenInclude(di => di.Ingredient)
                 .Where(d => d.DrinkIngredients.All(di => _context.UserIngredients
@@ -43,9 +44,27 @@ namespace DrinksMenuMVC.Data.Services
                 .ToListAsync();
 
 
-            /*var result = await _context.Drinks.Include(d => d.User).Include(d => d.DrinkIngredients).ThenInclude(i => i.Ingredient).ToListAsync();
-*/
+            /*var result = await _context.Drinks.Include(d => d.User).ThenInclude(ui => ui.UserIngredients).Include(d => d.DrinkIngredients).ThenInclude(i => i.Ingredient).ToListAsync();*/
+
             return availableDrinks;
+        }
+
+        public async Task<IEnumerable<Drink>> GetAllUnavailableCards()
+        {
+            // Get drinks that are available for a certain user
+            // set the UserId to 2; will take care of which user is logged in later
+            int userId = 2;
+
+            // get the drink available for user with UserId = userId
+            var unavailableDrinks = await _context.Drinks
+                .Include(u => u.User)
+                .Include(d => d.DrinkIngredients)
+                .ThenInclude(di => di.Ingredient)
+                .Where(d => d.DrinkIngredients.Any(di => !_context.UserIngredients
+                    .Any(ui => ui.UserId == userId && ui.IngredientId == di.IngredientId && ui.IsAvailable)))
+                .ToListAsync();
+
+            return unavailableDrinks;
         }
 
         public Drink GetById(int id)

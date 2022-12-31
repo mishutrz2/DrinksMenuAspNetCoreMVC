@@ -23,8 +23,9 @@ namespace DrinksMenuMVC.Controllers
 
         public async Task<IActionResult> IndexCards()
         {
-            var allDrinksCards = await _service.GetAllCards();
-            return View(allDrinksCards);
+            var availableCards = await _service.GetAllAvailableCards();
+            var unavailableCards = await _service.GetAllUnavailableCards();
+            return View(new Tuple<IEnumerable<Drink>, IEnumerable<Drink>>(availableCards, unavailableCards));
         }
 
         public IActionResult Home()
