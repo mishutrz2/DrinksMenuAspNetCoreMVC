@@ -1,0 +1,16 @@
+﻿@model IEnumerable<Ingredient>
+
+<div class="offset-md-2">
+    <h2>My Ingredients</h2>
+    <form method="post" action="/Ingredients/Save">
+        @foreach (var ingredient in Model)
+        {
+            <div class="form-group form-check">
+                <input type="checkbox" class="form-check-input" name="ingredients" value="@ingredient.IngredientId" checked="@true">
+                <label class="form-check-label" for="ingredient-@ingredient.IngredientId">@ingredient.IngredientName</label>
+            </div>
+        }
+        <button type="submit" class="btn btn-primary">Save</button>
+    </form>
+
+</div>

@@ -16,7 +16,13 @@ namespace DrinksMenuMVC.Controllers
         public async Task<IActionResult> Index()
         {
             var allIngredients = await _context.Ingredients.ToListAsync();
-            return View();
+            return View(allIngredients);
+        }
+
+        public async Task<IActionResult> MyIngredients()
+        {
+            var allIngredients = await _context.Ingredients.ToListAsync();
+            return View(allIngredients);
         }
     }
 }
