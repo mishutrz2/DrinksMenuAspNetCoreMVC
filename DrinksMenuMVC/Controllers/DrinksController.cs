@@ -1,4 +1,5 @@
 ﻿using DrinksMenuMVC.Data;
+using DrinksMenuMVC.Data.Services;
 using DrinksMenuMVC.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -7,23 +8,28 @@ namespace DrinksMenuMVC.Controllers
 {
     public class DrinksController : Controller
     {
-        private readonly AppDbContext _context;
+        private readonly IDrinksService _service;
 
-        public DrinksController(AppDbContext context)
+        public DrinksController(IDrinksService service)
         {
-            _context = context; 
+            _service = service; 
         }
 
         public async Task<IActionResult> Index()
         {
-            var allDrinks = await _context.Drinks.Include(d => d.DrinkIngredients).ToListAsync();
+            var allDrinks = await _service.GetAll();
             return View(allDrinks);
         }
 
         public async Task<IActionResult> IndexCards()
         {
-            var allDrinks = await _context.Drinks.Include(d => d.User).Include(d => d.DrinkIngredients).ThenInclude(i => i.Ingredient).ToListAsync();
-            return View(allDrinks);
+            var allDrinksCards = await _service.GetAllCards();
+            return View(allDrinksCards);
+        }
+
+        public IActionResult Home()
+        {
+            return View();
         }
     }
 }

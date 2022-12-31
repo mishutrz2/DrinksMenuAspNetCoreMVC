@@ -12,7 +12,7 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-controller="Drinks" asp-action="Index">DrinksMenuMVC</a>
+                <a class="navbar-brand" asp-controller="Home" asp-action="Index">DrinksMenuMVC</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -29,7 +29,7 @@
 
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" asp-controller="Drinks" asp-action="Index"> <i class="bi bi-cup-straw"></i> My Favorite Drinks </a>
-                                <a class="dropdown-item" asp-controller="Ingredients" asp-action="Index"> <i class="bi bi-basket"></i> My Ingredients</a>
+                                <a class="dropdown-item" asp-controller="Ingredients" asp-action="MyIngredients"> <i class="bi bi-basket"></i> My Ingredients</a>
                                 <a class="dropdown-item" asp-controller="Ingredients" asp-action="Index"> <i class="bi bi-person"></i> My Profile</a>
                             </div>
 
@@ -51,9 +51,9 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+    <footer class="border-top footer text-muted" style="position:absolute;bottom:0;width:100%;">
         <div class="container">
-            &copy; 2022 - DrinksMenuMVC
+            &copy; 2022 - DrinksMenuMVC - mishu
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

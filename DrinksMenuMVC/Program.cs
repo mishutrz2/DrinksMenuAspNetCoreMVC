@@ -1,10 +1,14 @@
 using DrinksMenuMVC.Data;
+using DrinksMenuMVC.Data.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // DbContext configuration
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Services configuration
+builder.Services.AddScoped<IDrinksService, DrinksService>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
