@@ -28,12 +28,8 @@ namespace DrinksMenuMVC.Data.Services
             return result;
         }
 
-        public async Task<IEnumerable<Drink>> GetAllAvailableCards()
+        public async Task<IEnumerable<Drink>> GetAllAvailableCards(int userId)
         {
-            // Get drinks that are available for a certain user
-            // set the UserId to 2; will take care of which user is logged in later
-            int userId = 2;
-
             // get the drink available for user with UserId = userId
             var availableDrinks = await _context.Drinks
                 .Include(u => u.User)
@@ -49,12 +45,8 @@ namespace DrinksMenuMVC.Data.Services
             return availableDrinks;
         }
 
-        public async Task<IEnumerable<Drink>> GetAllUnavailableCards()
+        public async Task<IEnumerable<Drink>> GetAllUnavailableCards(int userId)
         {
-            // Get drinks that are available for a certain user
-            // set the UserId to 2; will take care of which user is logged in later
-            int userId = 2;
-
             // get the drink available for user with UserId = userId
             var unavailableDrinks = await _context.Drinks
                 .Include(u => u.User)

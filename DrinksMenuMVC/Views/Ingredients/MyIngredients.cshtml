@@ -1,16 +1,19 @@
-﻿@model IEnumerable<Ingredient>
+﻿@using DrinksMenuMVC.Data.ViewModels
+@model MyIngredientsViewModel
 
 <div class="offset-md-2">
     <h2>My Ingredients</h2>
-    <form method="post" action="/Ingredients/Save">
-        @foreach (var ingredient in Model)
+    <form method="post" action="/Ingredients/Save" >
+        @foreach (var ingredient in Model.Ingredients)
         {
-            <div class="form-group form-check">
-                <input type="checkbox" class="form-check-input" name="ingredients" value="@ingredient.IngredientId" checked="@true">
-                <label class="form-check-label" for="ingredient-@ingredient.IngredientId">@ingredient.IngredientName</label>
+            @*bool isAvailable = true;*@
+            bool isAvailable = Model.IngredientAvailability[ingredient.IngredientId];
+
+            <div style="margin-top:10px;margin-bottom:10px;" class="form-group form-check">
+                <input style="height:20px;width:20px;" id="@ingredient.IngredientId" type="checkbox" class="form-check-input" name="ingredients" value="@ingredient.IngredientId" checked="@isAvailable">
+                <label style="margin-left:8px;font-size:20px;" for="@ingredient.IngredientId" class="form-check-label" for="ingredient-@ingredient.IngredientId">@ingredient.IngredientName</label>
             </div>
         }
-        <button type="submit" class="btn btn-primary">Save</button>
+        <button style="margin-top:10px;" type="submit" class="btn btn-primary">Save</button>
     </form>
-
 </div>

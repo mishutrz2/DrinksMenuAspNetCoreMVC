@@ -9,6 +9,7 @@ builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(buil
 
 // Services configuration
 builder.Services.AddScoped<IDrinksService, DrinksService>();
+builder.Services.AddScoped<IIngredientsService, IngredientsService>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
