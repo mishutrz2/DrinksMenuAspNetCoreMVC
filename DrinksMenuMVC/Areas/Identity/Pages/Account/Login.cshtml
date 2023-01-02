@@ -5,10 +5,10 @@
     ViewData["Title"] = "Log in";
 }
 
-<h1>@ViewData["Title"]</h1>
-<div class="row">
+@*<h1>@ViewData["Title"]</h1>*@
+<div class="row" style="display: flex;justify-content: center;">
     <div class="col-md-4">
-        <section>
+        <section style="">
             <form id="account" method="post">
                 <h2>Use a local account to log in.</h2>
                 <hr />
@@ -49,7 +49,7 @@
         </section>
     </div>
     <div class="col-md-6 col-md-offset-2">
-        <section>
+        @*<section>
             <h3>Use another service to log in.</h3>
             <hr />
             @{
@@ -76,7 +76,7 @@
                     </form>
                 }
             }
-        </section>
+        </section>*@
     </div>
 </div>
 

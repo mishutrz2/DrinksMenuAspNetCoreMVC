@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DrinksMenuMVC.Migrations
 {
     [DbContext(typeof(AccountsDbContext))]
-    [Migration("20230102133848_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20230102193507_InitCreate")]
+    partial class InitCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

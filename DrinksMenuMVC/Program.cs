@@ -9,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 // DbContext configuration
 builder.Services.AddDbContext<AccountsDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("AccountsDbContextConnection")));
 
-builder.Services.AddDefaultIdentity<AccountUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddDefaultIdentity<AccountUser>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddEntityFrameworkStores<AccountsDbContext>();
 
 // Services configuration
