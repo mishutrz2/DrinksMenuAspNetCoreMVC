@@ -1,11 +1,17 @@
 using DrinksMenuMVC.Data;
 using DrinksMenuMVC.Data.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using DrinksMenuMVC.Areas.Identity.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // DbContext configuration
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddDbContext<AccountsDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("AccountsDbContextConnection")));
+
+builder.Services.AddDefaultIdentity<AccountUser>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddEntityFrameworkStores<AccountsDbContext>();
 
 // Services configuration
 builder.Services.AddScoped<IDrinksService, DrinksService>();
@@ -28,6 +34,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+app.UseAuthentication();;
 
 app.UseAuthorization();
 
@@ -37,5 +44,7 @@ app.MapControllerRoute(
 
 // Seed database
 AppDbInitializer.Seed(app);
+
+app.MapRazorPages();
 
 app.Run();
