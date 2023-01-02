@@ -3,10 +3,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace DrinksMenuMVC.Migrations.AccountsDb
+namespace DrinksMenuMVC.Migrations
 {
     /// <inheritdoc />
-    public partial class AccountsIdentity : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -32,6 +32,7 @@ namespace DrinksMenuMVC.Migrations.AccountsDb
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    DisplayName = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -50,6 +51,21 @@ namespace DrinksMenuMVC.Migrations.AccountsDb
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Ingredients",
+                columns: table => new
+                {
+                    IngredientId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    IngredientName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    HasAlcohol = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Ingredients", x => x.IngredientId);
                 });
 
             migrationBuilder.CreateTable(
@@ -158,6 +174,104 @@ namespace DrinksMenuMVC.Migrations.AccountsDb
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Drinks",
+                columns: table => new
+                {
+                    DrinkId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DrinkName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TypeOfDrink = table.Column<int>(type: "int", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DrinkImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CurrentStatus = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    AccountUserId = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Drinks", x => x.DrinkId);
+                    table.ForeignKey(
+                        name: "FK_Drinks_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserIngredients",
+                columns: table => new
+                {
+                    AccountUserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    IngredientId = table.Column<int>(type: "int", nullable: false),
+                    IsAvailable = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserIngredients", x => new { x.AccountUserId, x.IngredientId });
+                    table.ForeignKey(
+                        name: "FK_UserIngredients_AspNetUsers_AccountUserId",
+                        column: x => x.AccountUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserIngredients_Ingredients_IngredientId",
+                        column: x => x.IngredientId,
+                        principalTable: "Ingredients",
+                        principalColumn: "IngredientId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "DrinkIngredients",
+                columns: table => new
+                {
+                    DrinkId = table.Column<int>(type: "int", nullable: false),
+                    IngredientId = table.Column<int>(type: "int", nullable: false),
+                    Amount = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DrinkIngredients", x => new { x.DrinkId, x.IngredientId });
+                    table.ForeignKey(
+                        name: "FK_DrinkIngredients_Drinks_DrinkId",
+                        column: x => x.DrinkId,
+                        principalTable: "Drinks",
+                        principalColumn: "DrinkId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_DrinkIngredients_Ingredients_IngredientId",
+                        column: x => x.IngredientId,
+                        principalTable: "Ingredients",
+                        principalColumn: "IngredientId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserDrinks",
+                columns: table => new
+                {
+                    AccountUserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    DrinkId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserDrinks", x => new { x.AccountUserId, x.DrinkId });
+                    table.ForeignKey(
+                        name: "FK_UserDrinks_AspNetUsers_AccountUserId",
+                        column: x => x.AccountUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserDrinks_Drinks_DrinkId",
+                        column: x => x.DrinkId,
+                        principalTable: "Drinks",
+                        principalColumn: "DrinkId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -196,6 +310,26 @@ namespace DrinksMenuMVC.Migrations.AccountsDb
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DrinkIngredients_IngredientId",
+                table: "DrinkIngredients",
+                column: "IngredientId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Drinks_UserId",
+                table: "Drinks",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserDrinks_DrinkId",
+                table: "UserDrinks",
+                column: "DrinkId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserIngredients_IngredientId",
+                table: "UserIngredients",
+                column: "IngredientId");
         }
 
         /// <inheritdoc />
@@ -217,7 +351,22 @@ namespace DrinksMenuMVC.Migrations.AccountsDb
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "DrinkIngredients");
+
+            migrationBuilder.DropTable(
+                name: "UserDrinks");
+
+            migrationBuilder.DropTable(
+                name: "UserIngredients");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Drinks");
+
+            migrationBuilder.DropTable(
+                name: "Ingredients");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

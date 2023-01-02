@@ -1,4 +1,5 @@
-﻿using DrinksMenuMVC.Data.Enums;
+﻿using DrinksMenuMVC.Areas.Identity.Data;
+using DrinksMenuMVC.Data.Enums;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -28,7 +29,7 @@ namespace DrinksMenuMVC.Models
 
         // field for one-to-many relationship between User and Drink
         [ForeignKey("UserId")]
-        public User User { get; set; }
-        public int UserId { get; set; }
+        public AccountUser AccountUser { get; set; }
+        public string AccountUserId { get; set; }
     }
 }

@@ -6,7 +6,7 @@ namespace DrinksMenuMVC.Data.Services
     {
         Task<IEnumerable<Ingredient>> GetAll();
         Task<IEnumerable<Ingredient>> GetAvailableAll();
-        Task<IDictionary<int, bool>> GetAvailabilities(int userId);
+        Task<IDictionary<int, bool>> GetAvailabilities(string userId);
         Ingredient GetById(int id);
     }
 }

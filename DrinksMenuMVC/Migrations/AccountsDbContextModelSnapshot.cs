@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace DrinksMenuMVC.Migrations.AccountsDb
+namespace DrinksMenuMVC.Migrations
 {
     [DbContext(typeof(AccountsDbContext))]
     partial class AccountsDbContextModelSnapshot : ModelSnapshot
@@ -33,6 +33,11 @@ namespace DrinksMenuMVC.Migrations.AccountsDb
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DisplayName")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
@@ -95,6 +100,125 @@ namespace DrinksMenuMVC.Migrations.AccountsDb
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+                });
+
+            modelBuilder.Entity("DrinksMenuMVC.Models.Drink", b =>
+                {
+                    b.Property<int>("DrinkId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DrinkId"));
+
+                    b.Property<string>("AccountUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("CurrentStatus")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DrinkImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DrinkName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TypeOfDrink")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("DrinkId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Drinks");
+                });
+
+            modelBuilder.Entity("DrinksMenuMVC.Models.DrinkIngredient", b =>
+                {
+                    b.Property<int>("DrinkId")
+                        .HasColumnType("int")
+                        .HasColumnOrder(0);
+
+                    b.Property<int>("IngredientId")
+                        .HasColumnType("int")
+                        .HasColumnOrder(1);
+
+                    b.Property<string>("Amount")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("DrinkId", "IngredientId");
+
+                    b.HasIndex("IngredientId");
+
+                    b.ToTable("DrinkIngredients");
+                });
+
+            modelBuilder.Entity("DrinksMenuMVC.Models.Ingredient", b =>
+                {
+                    b.Property<int>("IngredientId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IngredientId"));
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("HasAlcohol")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("IngredientName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("IngredientId");
+
+                    b.ToTable("Ingredients");
+                });
+
+            modelBuilder.Entity("DrinksMenuMVC.Models.UserDrink", b =>
+                {
+                    b.Property<string>("AccountUserId")
+                        .HasColumnType("nvarchar(450)")
+                        .HasColumnOrder(0);
+
+                    b.Property<int>("DrinkId")
+                        .HasColumnType("int")
+                        .HasColumnOrder(1);
+
+                    b.HasKey("AccountUserId", "DrinkId");
+
+                    b.HasIndex("DrinkId");
+
+                    b.ToTable("UserDrinks");
+                });
+
+            modelBuilder.Entity("DrinksMenuMVC.Models.UserIngredient", b =>
+                {
+                    b.Property<string>("AccountUserId")
+                        .HasColumnType("nvarchar(450)")
+                        .HasColumnOrder(0);
+
+                    b.Property<int>("IngredientId")
+                        .HasColumnType("int")
+                        .HasColumnOrder(1);
+
+                    b.Property<bool>("IsAvailable")
+                        .HasColumnType("bit");
+
+                    b.HasKey("AccountUserId", "IngredientId");
+
+                    b.HasIndex("IngredientId");
+
+                    b.ToTable("UserIngredients");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -234,6 +358,72 @@ namespace DrinksMenuMVC.Migrations.AccountsDb
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("DrinksMenuMVC.Models.Drink", b =>
+                {
+                    b.HasOne("DrinksMenuMVC.Areas.Identity.Data.AccountUser", "AccountUser")
+                        .WithMany("PostedDrinks")
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("AccountUser");
+                });
+
+            modelBuilder.Entity("DrinksMenuMVC.Models.DrinkIngredient", b =>
+                {
+                    b.HasOne("DrinksMenuMVC.Models.Drink", "Drink")
+                        .WithMany("DrinkIngredients")
+                        .HasForeignKey("DrinkId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DrinksMenuMVC.Models.Ingredient", "Ingredient")
+                        .WithMany("DrinkIngredients")
+                        .HasForeignKey("IngredientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Drink");
+
+                    b.Navigation("Ingredient");
+                });
+
+            modelBuilder.Entity("DrinksMenuMVC.Models.UserDrink", b =>
+                {
+                    b.HasOne("DrinksMenuMVC.Areas.Identity.Data.AccountUser", "AccountUser")
+                        .WithMany("UserDrinks")
+                        .HasForeignKey("AccountUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DrinksMenuMVC.Models.Drink", "Drink")
+                        .WithMany("UserDrinks")
+                        .HasForeignKey("DrinkId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AccountUser");
+
+                    b.Navigation("Drink");
+                });
+
+            modelBuilder.Entity("DrinksMenuMVC.Models.UserIngredient", b =>
+                {
+                    b.HasOne("DrinksMenuMVC.Areas.Identity.Data.AccountUser", "AccountUser")
+                        .WithMany("UserIngredients")
+                        .HasForeignKey("AccountUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DrinksMenuMVC.Models.Ingredient", "Ingredient")
+                        .WithMany("UserIngredients")
+                        .HasForeignKey("IngredientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AccountUser");
+
+                    b.Navigation("Ingredient");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -283,6 +473,29 @@ namespace DrinksMenuMVC.Migrations.AccountsDb
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("DrinksMenuMVC.Areas.Identity.Data.AccountUser", b =>
+                {
+                    b.Navigation("PostedDrinks");
+
+                    b.Navigation("UserDrinks");
+
+                    b.Navigation("UserIngredients");
+                });
+
+            modelBuilder.Entity("DrinksMenuMVC.Models.Drink", b =>
+                {
+                    b.Navigation("DrinkIngredients");
+
+                    b.Navigation("UserDrinks");
+                });
+
+            modelBuilder.Entity("DrinksMenuMVC.Models.Ingredient", b =>
+                {
+                    b.Navigation("DrinkIngredients");
+
+                    b.Navigation("UserIngredients");
                 });
 #pragma warning restore 612, 618
         }

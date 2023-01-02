@@ -25,7 +25,7 @@ namespace DrinksMenuMVC.Controllers
         {
             // Get drinks that are available for a certain user
             // set the UserId to 2; will take care of which user is logged in later
-            int userId = 2;
+            string userId = "123";
 
             var availableCards = await _service.GetAllAvailableCards(userId);
             var unavailableCards = await _service.GetAllUnavailableCards(userId);

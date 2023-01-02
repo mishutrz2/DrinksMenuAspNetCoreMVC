@@ -1,4 +1,4 @@
-﻿using DrinksMenuMVC.Models;
+﻿/*using DrinksMenuMVC.Models;
 
 namespace DrinksMenuMVC.Data
 {
@@ -8,7 +8,7 @@ namespace DrinksMenuMVC.Data
         {
             using (var serviceScope = applicationBuilder.ApplicationServices.CreateScope())
             {
-                var context = serviceScope.ServiceProvider.GetService<AppDbContext>();
+                var context = serviceScope.ServiceProvider.GetService<AccountsDbContext>();
 
                 context.Database.EnsureCreated();
 
@@ -381,3 +381,4 @@ namespace DrinksMenuMVC.Data
         }
     }
 }
+*/

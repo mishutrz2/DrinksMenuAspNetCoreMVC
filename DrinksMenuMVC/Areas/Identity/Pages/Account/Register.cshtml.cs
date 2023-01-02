@@ -80,7 +80,11 @@ namespace DrinksMenuMVC.Areas.Identity.Pages.Account
             [StringLength(255, ErrorMessage = "The last name field should have a maximum of 255 characters")]
             [Display(Name = "Last Name")]
             public string LastName { get; set; }
-
+            
+            [Required]
+            [StringLength(255, ErrorMessage = "The display name field should have a maximum of 255 characters")]
+            [Display(Name = "Display Name")]
+            public string DisplayName { get; set; }
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.

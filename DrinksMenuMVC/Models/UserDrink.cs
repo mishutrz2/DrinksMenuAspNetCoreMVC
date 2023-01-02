@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using DrinksMenuMVC.Areas.Identity.Data;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DrinksMenuMVC.Models
@@ -7,11 +8,11 @@ namespace DrinksMenuMVC.Models
     {
         [Key]
         [Column(Order = 0)]
-        public int UserId { get; set; }
+        public string AccountUserId { get; set; }
         [Key]
         [Column(Order = 1)]
         public int DrinkId { get; set; }
-        public User User { get; set; }
+        public AccountUser AccountUser { get; set; }
         public Drink Drink { get; set; }
     }
 }

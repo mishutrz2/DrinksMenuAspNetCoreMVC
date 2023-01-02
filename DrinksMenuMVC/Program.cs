@@ -7,7 +7,6 @@ using DrinksMenuMVC.Areas.Identity.Data;
 var builder = WebApplication.CreateBuilder(args);
 
 // DbContext configuration
-builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddDbContext<AccountsDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("AccountsDbContextConnection")));
 
 builder.Services.AddDefaultIdentity<AccountUser>(options => options.SignIn.RequireConfirmedAccount = true)
@@ -43,7 +42,7 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 // Seed database
-AppDbInitializer.Seed(app);
+/*AppDbInitializer.Seed(app);*/
 
 app.MapRazorPages();
 
