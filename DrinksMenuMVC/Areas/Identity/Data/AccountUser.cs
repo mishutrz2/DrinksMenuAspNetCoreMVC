@@ -10,9 +10,9 @@ namespace DrinksMenuMVC.Areas.Identity.Data;
 // Add profile data for application users by adding properties to the AccountUser class
 public class AccountUser : IdentityUser
 {
-    public string FirstName { get; set; }
+    /*public string FirstName { get; set; }
     public string LastName { get; set; }
-    public string DisplayName { get; set; }
+    public string DisplayName { get; set; }*/
 
     // this property corresponds to the one-to-many relationship between User and Drink
     public ICollection<Drink> PostedDrinks { get; set; }

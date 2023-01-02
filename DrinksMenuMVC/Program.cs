@@ -42,7 +42,7 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 // Seed database
-/*AppDbInitializer.Seed(app);*/
+AppDbInitializer.Seed(app);
 
 app.MapRazorPages();
 

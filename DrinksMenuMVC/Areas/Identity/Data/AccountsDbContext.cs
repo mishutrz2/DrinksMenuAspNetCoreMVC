@@ -66,8 +66,8 @@ public class ApplicationUserEntityConfiguration : IEntityTypeConfiguration<Accou
 {
     public void Configure(EntityTypeBuilder<AccountUser> builder)
     {
-        builder.Property(u => u.FirstName).HasMaxLength(255);
+        /*builder.Property(u => u.FirstName).HasMaxLength(255);
         builder.Property(u => u.LastName).HasMaxLength(255);
-        builder.Property(u => u.DisplayName).HasMaxLength(255);
+        builder.Property(u => u.DisplayName).HasMaxLength(255);*/
     }
 }
