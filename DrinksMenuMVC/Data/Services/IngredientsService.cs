@@ -29,12 +29,12 @@ namespace DrinksMenuMVC.Data.Services
         public async Task<IDictionary<int,bool>> GetAvailabilities(int userId)
         {
             var result = new Dictionary<int,bool>();
-            /*result.Add(1, true);
+            /* result.Add(1, true);
             result.Add(2, true);
             result.Add(3, false);
             result.Add(4, false);
             result.Add(5, true);
-            result.Add(6, true);*/
+            result.Add(6, true); */
 
             var ingredientsPairs = await _context.Ingredients
             .Include(i => i.UserIngredients)
