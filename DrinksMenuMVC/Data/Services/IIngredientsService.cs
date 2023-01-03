@@ -8,5 +8,6 @@ namespace DrinksMenuMVC.Data.Services
         Task<IEnumerable<Ingredient>> GetAvailableAll();
         Task<IDictionary<int, bool>> GetAvailabilities(string userId);
         Ingredient GetById(int id);
+        Task UpdateMyIngredients(UserIngredient userIngredient);
     }
 }

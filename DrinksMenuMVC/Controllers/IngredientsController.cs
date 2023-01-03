@@ -46,5 +46,13 @@ namespace DrinksMenuMVC.Controllers
 
             return View(viewModel);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Save(UserIngredient userIngredient)
+        {
+            await _service.UpdateMyIngredients(userIngredient);
+            return RedirectToAction("Index");
+        }
+
     }
 }

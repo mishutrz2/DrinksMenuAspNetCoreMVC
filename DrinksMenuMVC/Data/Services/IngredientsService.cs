@@ -36,10 +36,6 @@ namespace DrinksMenuMVC.Data.Services
             result.Add(4, false);
             result.Add(5, true);
             result.Add(6, true);*/
-            var tempVar = await _context.Ingredients
-            .Include(i => i.UserIngredients)
-            .ThenInclude(ui => ui.AccountUser)
-            .ToListAsync();
 
             var ingredientsPairs = await _context.Ingredients
             .Include(i => i.UserIngredients)
@@ -58,6 +54,11 @@ namespace DrinksMenuMVC.Data.Services
             }
 
             return result;
+        }
+
+        public async Task UpdateMyIngredients(UserIngredient userIngredient)
+        {
+
         }
 
     }
