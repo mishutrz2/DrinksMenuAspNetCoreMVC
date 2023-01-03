@@ -16,6 +16,6 @@ namespace DrinksMenuMVC.Models
         public Ingredient Ingredient { get; set; }
 
         // every user has it`s own list of available ingredients
-        public bool IsAvailable { get; set; }
+        public bool IsAvailable { get; set; } = false;
     }
 }

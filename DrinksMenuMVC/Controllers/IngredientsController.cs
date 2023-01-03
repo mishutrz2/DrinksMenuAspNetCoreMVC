@@ -1,7 +1,9 @@
-﻿using DrinksMenuMVC.Data;
+﻿using DrinksMenuMVC.Areas.Identity.Data;
+using DrinksMenuMVC.Data;
 using DrinksMenuMVC.Data.Services;
 using DrinksMenuMVC.Data.ViewModels;
 using DrinksMenuMVC.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,10 +12,12 @@ namespace DrinksMenuMVC.Controllers
     public class IngredientsController : Controller
     {
         private readonly IIngredientsService _service;
+        private readonly UserManager<AccountUser> _userManager;
 
-        public IngredientsController(IIngredientsService service)
+        public IngredientsController(IIngredientsService service, UserManager<AccountUser> userManager)
         {
             _service = service;
+            _userManager = userManager;
         }
 
         public async Task<IActionResult> Index()
@@ -25,8 +29,8 @@ namespace DrinksMenuMVC.Controllers
         public async Task<IActionResult> MyIngredients()
         {
             // Get ingredients that are available for a certain user
-            // set the UserId to 2; will take care of which user is logged in later
-            string userId = "71e8b053-c79b-414d-b786-f5dd41b1d510";
+            AccountUser accountUser = await _userManager.GetUserAsync(User);
+            string userId = accountUser.Id;
 
             // Get the ingredients
             var ingredients = await _service.GetAvailableAll();

@@ -1,4 +1,5 @@
 ﻿using DrinksMenuMVC.Areas.Identity.Data;
+using DrinksMenuMVC.Data.Services;
 using DrinksMenuMVC.Models;
 
 namespace DrinksMenuMVC.Data
@@ -260,5 +261,72 @@ namespace DrinksMenuMVC.Data
 
             }
         }
+
+        // used after adding new AccountUser / edit MyIngredients list
+        /*public static void SeedUI(IApplicationBuilder applicationBuilder)
+        {
+            using (var serviceScope = applicationBuilder.ApplicationServices.CreateScope())
+            {
+                var context = serviceScope.ServiceProvider.GetService<AccountsDbContext>();
+
+                context.Database.EnsureCreated();
+
+                // AccountUser id
+                string varX = "71e8b053-c79b-414d-b786-f5dd41b1d510";
+
+
+                // add relationship Users-Ingredients
+                if (!context.UserIngredients.Any())
+                {
+                    List<UserIngredient> myList = new();
+                    foreach(Ingredient item in IngredientsService)
+                    {
+
+                    }
+                    context.UserIngredients.AddRange(new List<UserIngredient>()
+                    {
+                        // for user with id 1
+                        new UserIngredient()
+                        {
+                            AccountUserId = varX,
+                            IngredientId = 1,
+                            IsAvailable = true
+                        },
+                        new UserIngredient()
+                        {
+                            AccountUserId = varX,
+                            IngredientId = 2,
+                            IsAvailable = true
+                        },
+                        new UserIngredient()
+                        {
+                            AccountUserId = varX,
+                            IngredientId = 3,
+                            IsAvailable = true
+                        },
+                        new UserIngredient()
+                        {
+                            AccountUserId = varX,
+                            IngredientId = 4,
+                            IsAvailable = true
+                        },
+                        new UserIngredient()
+                        {
+                            AccountUserId = varX,
+                            IngredientId = 5,
+                            IsAvailable = false
+                        },
+                        new UserIngredient()
+                        {
+                            AccountUserId = varX,
+                            IngredientId = 6,
+                            IsAvailable = true
+                        },
+                    });
+                    context.SaveChanges();
+                }
+               
+            }
+        }*/
     }
 }
