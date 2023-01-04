@@ -1,4 +1,4 @@
-﻿using DrinksMenuMVC.Areas.Identity.Data;
+using DrinksMenuMVC.Areas.Identity.Data;
 using DrinksMenuMVC.Data.ViewModels;
 using DrinksMenuMVC.Models;
 using Microsoft.AspNetCore.Identity;
