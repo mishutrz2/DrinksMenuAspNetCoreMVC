@@ -1,15 +1,17 @@
 ﻿@using DrinksMenuMVC.Data.ViewModels
 @model MyIngredientsViewModel
 
-<div class="offset-1">
+<div class="offset-lg-2 offset-md-1 offset-1">
     <form method="post" action="/Ingredients/Save">
 
         <div class="row">
 
 
-            <div class="col-md-2">
+            <div class="col-md-4">
+                <br/>
                 <h3> Spirits </h3>
-                @foreach (var ingredient in Model.Ingredients)
+                <hr/>
+                @foreach (var ingredient in Model.Ingredients.OrderBy(i => i.IngredientName))
                 {
                     if(ingredient.IngredientType == IngredientType.Spirits)
                     {
@@ -24,9 +26,11 @@
                 }
             </div>
 
-            <div class="col-md-2">
+            <div class="col-md-4">
+                 <br/>
                 <h3> Liqueurs </h3>
-                @foreach (var ingredient in Model.Ingredients)
+                <hr/>
+                @foreach (var ingredient in Model.Ingredients.OrderBy(i => i.IngredientName))
                 {
                     if(ingredient.IngredientType == IngredientType.Liqueurs)
                     {
@@ -40,9 +44,11 @@
                 }
             </div>
 
-            <div class="col-md-2">
+            <div class="col-md-4">
+                <br />
                 <h3> Fruits </h3>
-                @foreach (var ingredient in Model.Ingredients)
+                <hr />
+                @foreach (var ingredient in Model.Ingredients.OrderBy(i => i.IngredientName))
                 {
                     if (ingredient.IngredientType == IngredientType.Fruits)
                     {
@@ -56,9 +62,11 @@
                 }
             </div>
 
-            <div class="col-md-2">
+            <div class="col-md-4">
+                 <br/>
                 <h3> Other </h3>
-                @foreach (var ingredient in Model.Ingredients)
+                <hr/>
+                @foreach (var ingredient in Model.Ingredients.OrderBy(i => i.IngredientName))
                 {
                     if (ingredient.IngredientType == IngredientType.Other)
                     {
@@ -73,6 +81,6 @@
             </div>
 
         </div>
-        <button style="margin-top:10px;" type="submit" class="btn btn-primary">Save</button>
+        <button style="margin-top:30px;" type="submit" class="btn btn-primary btn-lg">Save</button>
     </form>
 </div>
