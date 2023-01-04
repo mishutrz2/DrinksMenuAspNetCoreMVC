@@ -6,10 +6,10 @@ namespace DrinksMenuMVC.Models
     {
         Spirits,
         Liqueurs,
-        Sodas,
         Fruits,
+        Other,
         Bitters,
-        Other
+        Sodas
     }
 
     public class Ingredient

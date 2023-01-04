@@ -24,7 +24,7 @@ builder.Services.AddScoped<IDrinksService, DrinksService>();
 builder.Services.AddScoped<IIngredientsService, IngredientsService>();
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
 // CORS
 builder.Services.AddCors();
