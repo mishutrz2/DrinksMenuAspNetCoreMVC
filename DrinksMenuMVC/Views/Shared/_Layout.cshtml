@@ -19,27 +19,37 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
+                        <li style="margin-left:30px;" class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Drinks" asp-action="IndexCards"> <i class="badge-info bi-cup-straw"></i>Drinks</a>
                         </li>
-                        <li class="nav-item dropdown">
+                        <li style="margin-left:30px;" class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="bi bi-gear"></i> Management
                             </a>
 
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                @*<a class="dropdown-item" asp-controller="Drinks" asp-action="Index"> <i class="bi bi-cup-straw"></i> Edit Drinks </a>*@
                                 <a class="dropdown-item" asp-controller="Ingredients" asp-action="MyIngredients"> <i class="bi bi-basket"></i> My Ingredients</a>
                                 <a class="dropdown-item" asp-controller="Ingredients" asp-action="Index"> <i class="bi bi-person"></i> My Profile</a>
                             </div>
 
                         </li>
+                        
+                        @*This is for adding drinks*@
+                        @if (User.IsInRole("Contributor"))
+                        {
+                            <li style="margin-left:30px;" class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Drinks" asp-action="AddDrink"> <i class="badge-info bi-plus-circle"></i> Add Drink</a>
+                            </li>
+                        }
+
                     </ul>
 
-                    <form class="form-inline my-2 my-lg-0" asp-controller="Drinks" asp-action="Filter" style="display:flex;padding-right: 25px;">
+                     @*will do later*@
+
+                    @*<form class="form-inline my-2 my-lg-0" asp-controller="Drinks" asp-action="Filter" style="display:flex;padding-right: 25px;">
                         <input name="searchString" type="text" class="form-control" placeholder="Search for a drink ..." aria-label="something ... username" aria-describedby="button-addon2"/>
                         <button class="btn btn-outline-success my-2 my-sm-0" type="submit"> <i class="bi bi-search"></i> </button>
-                    </form>
+                    </form>*@
 
                 </div>
                 <partial name="_LoginPartial" />

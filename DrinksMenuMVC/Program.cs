@@ -12,6 +12,13 @@ builder.Services.AddDbContext<AccountsDbContext>(options => options.UseSqlServer
 builder.Services.AddDefaultIdentity<AccountUser>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddEntityFrameworkStores<AccountsDbContext>();
 
+// For roles and policies
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("RequireContributorRole", policy => policy.RequireRole("Contributor"));
+});
+
+
 // Services configuration
 builder.Services.AddScoped<IDrinksService, DrinksService>();
 builder.Services.AddScoped<IIngredientsService, IngredientsService>();
@@ -19,7 +26,15 @@ builder.Services.AddScoped<IIngredientsService, IngredientsService>();
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+// CORS
+builder.Services.AddCors();
 var app = builder.Build();
+app.UseCors(builder =>
+    {
+        builder.AllowAnyOrigin();
+        builder.AllowAnyHeader();
+        builder.AllowAnyMethod();
+    });
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
