@@ -1,6 +1,7 @@
 ﻿using DrinksMenuMVC.Areas.Identity.Data;
 using DrinksMenuMVC.Data;
 using DrinksMenuMVC.Data.Services;
+using DrinksMenuMVC.Data.ViewModels;
 using DrinksMenuMVC.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -21,20 +22,38 @@ namespace DrinksMenuMVC.Controllers
             _userManager = userManager;
         }
 
-        public async Task<IActionResult> MyIngredients()
-        {
-            // Get ingredients that are available for a certain user
-            AccountUser accountUser = await _userManager.GetUserAsync(User);
-            string userId = string.Empty;
-            try
+
+            public async Task<IActionResult> MyIngredients()
             {
-                userId = accountUser.Id;
-            }
-            catch (Exception ex)
-            {
-                return View();
+                // Get ingredients that are available for a certain user
+                AccountUser accountUser = await _userManager.GetUserAsync(User);
+                string userId = accountUser.Id;
+
+                // Get the ingredients
+                var ingredients = await _service.GetAvailableAll();
+
+                // Get the dictionary for availability
+                var ingredientAvailability = await _service.GetAvailabilities(userId);
+
+                MyIngredientsViewModel viewModel = new()
+                {
+                    Ingredients = ingredients,
+                    IngredientAvailability = ingredientAvailability
+                };
+
+                return View(viewModel);
             }
 
+        [HttpPost]
+        public async Task<IActionResult> Save([FromForm]SaveMyIngredientsViewModel myIngredientsViewModel)
+        {
+            AccountUser accountUser = await _userManager.GetUserAsync(User);
+            string userId = accountUser.Id;
+
+            // model.IsChecked will contain the value of the checkbox
+            // Save the model and redirect to another page
+            await _service.UpdateAvailable(myIngredientsViewModel.Ids, userId);
+            Console.WriteLine(myIngredientsViewModel);
             return View();
         }
 

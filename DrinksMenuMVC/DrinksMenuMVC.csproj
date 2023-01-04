@@ -24,7 +24,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Data\ViewModels\" />
     <Folder Include="Migrations\" />
   </ItemGroup>
 
