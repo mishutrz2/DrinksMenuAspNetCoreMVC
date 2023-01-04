@@ -1,20 +1,40 @@
 using DrinksMenuMVC.Data;
 using DrinksMenuMVC.Data.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using DrinksMenuMVC.Areas.Identity.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // DbContext configuration
-builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddDbContext<AccountsDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("AccountsDbContextConnection")));
+
+builder.Services.AddDefaultIdentity<AccountUser>(options => options.SignIn.RequireConfirmedAccount = false)
+    .AddEntityFrameworkStores<AccountsDbContext>();
+
+// For roles and policies
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("RequireContributorRole", policy => policy.RequireRole("Contributor"));
+});
+
 
 // Services configuration
 builder.Services.AddScoped<IDrinksService, DrinksService>();
 builder.Services.AddScoped<IIngredientsService, IngredientsService>();
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
+// CORS
+builder.Services.AddCors();
 var app = builder.Build();
+app.UseCors(builder =>
+    {
+        builder.AllowAnyOrigin();
+        builder.AllowAnyHeader();
+        builder.AllowAnyMethod();
+    });
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -28,6 +48,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+app.UseAuthentication();;
 
 app.UseAuthorization();
 
@@ -36,6 +57,8 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 // Seed database
-AppDbInitializer.Seed(app);
+/*AppDbInitializer.Seed(app);*/
+
+app.MapRazorPages();
 
 app.Run();

@@ -1,4 +1,6 @@
-﻿using DrinksMenuMVC.Models;
+﻿using DrinksMenuMVC.Areas.Identity.Data;
+using DrinksMenuMVC.Data.Services;
+using DrinksMenuMVC.Models;
 
 namespace DrinksMenuMVC.Data
 {
@@ -8,45 +10,11 @@ namespace DrinksMenuMVC.Data
         {
             using (var serviceScope = applicationBuilder.ApplicationServices.CreateScope())
             {
-                var context = serviceScope.ServiceProvider.GetService<AppDbContext>();
+                var context = serviceScope.ServiceProvider.GetService<AccountsDbContext>();
 
                 context.Database.EnsureCreated();
 
-                // add Users
-                if (!context.Users.Any())
-                {
-                    context.Users.AddRange(new List<User>()
-                    {
-                        new User()
-                        {
-                            FullName = "Brisan Mircea",
-                            Email = "mishutrz2@yahoo.com",
-                            Password = "parola123",
-                            DisplayName = "mishutrz2",
-                            Country = "Romania",
-                            Role = Enums.UserRole.Admin
-                        },
-                        new User()
-                        {
-                            FullName = "Stan George",
-                            Email = "sroger@yahoo.com",
-                            Password = "parola123",
-                            DisplayName = "georgesss",
-                            Country = "Romania",
-                            Role = Enums.UserRole.Moderator
-                        },
-                        new User()
-                        {
-                            FullName = "Mirel Florin",
-                            Email = "florel@yahoo.com",
-                            Password = "parola123",
-                            DisplayName = "milflor",
-                            Country = "UK",
-                            Role = Enums.UserRole.Contributor
-                        }
-                    });
-                    context.SaveChanges();
-                }
+                string varX = "71e8b053-c79b-414d-b786-f5dd41b1d510";
 
                 // add Ingredients
                 if (!context.Ingredients.Any())
@@ -105,7 +73,7 @@ namespace DrinksMenuMVC.Data
                             Description = "Fresh drink, perfect for summer, but also good for getting warm during the winter.",
                             DrinkImageUrl = "https://www.acouplecooks.com/wp-content/uploads/2020/03/Margarita-026.jpg",
                             CurrentStatus = Enums.DrinkStatus.Approved,
-                            UserId = 1
+                            AccountUserId = varX
                         },
                         new Drink()
                         {
@@ -114,7 +82,7 @@ namespace DrinksMenuMVC.Data
                             Description = "Shot with vodka and triple sec, fresh and strong.",
                             DrinkImageUrl = "http://shake-that.com/wp-content/uploads/2015/07/Kamikaze-shot1.jpg",
                             CurrentStatus = Enums.DrinkStatus.Approved,
-                            UserId = 1
+                            AccountUserId = varX
                         },
                         new Drink()
                         {
@@ -123,7 +91,7 @@ namespace DrinksMenuMVC.Data
                             Description = "Fresh and minty drink, perfect for any time of the day.",
                             DrinkImageUrl = "https://ourbestbites.com/wp-content/uploads/2017/07/Virgin-Moscow-Mule-5-sq.jpg",
                             CurrentStatus = Enums.DrinkStatus.Pending,
-                            UserId = 2
+                            AccountUserId = varX
                         },
                         new Drink()
                         {
@@ -132,7 +100,7 @@ namespace DrinksMenuMVC.Data
                             Description = "Strong drink with coffee taste.",
                             DrinkImageUrl = "https://static.fanpage.it/wp-content/uploads/sites/22/2021/07/black-russian.jpeg",
                             CurrentStatus = Enums.DrinkStatus.Rejected,
-                            UserId = 3
+                            AccountUserId = varX
                         }
                     });
                     context.SaveChanges();
@@ -146,115 +114,39 @@ namespace DrinksMenuMVC.Data
                         // for user with id 1
                         new UserIngredient()
                         {
-                            UserId = 1,
+                            AccountUserId = varX,
                             IngredientId = 1,
                             IsAvailable = true
                         },
                         new UserIngredient()
                         {
-                            UserId = 1,
+                            AccountUserId = varX,
                             IngredientId = 2,
                             IsAvailable = true
                         },
                         new UserIngredient()
                         {
-                            UserId = 1,
+                            AccountUserId = varX,
                             IngredientId = 3,
                             IsAvailable = true
                         },
                         new UserIngredient()
                         {
-                            UserId = 1,
+                            AccountUserId = varX,
                             IngredientId = 4,
                             IsAvailable = true
                         },
                         new UserIngredient()
                         {
-                            UserId = 1,
+                            AccountUserId = varX,
                             IngredientId = 5,
                             IsAvailable = false
                         },
                         new UserIngredient()
                         {
-                            UserId = 1,
+                            AccountUserId = varX,
                             IngredientId = 6,
                             IsAvailable = true
-                        },
-
-                        // for user with id 2
-                        new UserIngredient()
-                        {
-                            UserId = 2,
-                            IngredientId = 1,
-                            IsAvailable = true
-                        },
-                        new UserIngredient()
-                        {
-                            UserId = 2,
-                            IngredientId = 2,
-                            IsAvailable = true
-                        },
-                        new UserIngredient()
-                        {
-                            UserId = 2,
-                            IngredientId = 3,
-                            IsAvailable = false
-                        },
-                        new UserIngredient()
-                        {
-                            UserId = 2,
-                            IngredientId = 4,
-                            IsAvailable = true
-                        },
-                        new UserIngredient()
-                        {
-                            UserId = 2,
-                            IngredientId = 5,
-                            IsAvailable = true
-                        },
-                        new UserIngredient()
-                        {
-                            UserId = 2,
-                            IngredientId = 6,
-                            IsAvailable = true
-                        },
-
-                        // for user with id 3
-                        new UserIngredient()
-                        {
-                            UserId = 3,
-                            IngredientId = 1,
-                            IsAvailable = true
-                        },
-                        new UserIngredient()
-                        {
-                            UserId = 3,
-                            IngredientId = 2,
-                            IsAvailable = false
-                        },
-                        new UserIngredient()
-                        {
-                            UserId = 3,
-                            IngredientId = 3,
-                            IsAvailable = false
-                        },
-                        new UserIngredient()
-                        {
-                            UserId = 3,
-                            IngredientId = 4,
-                            IsAvailable = true
-                        },
-                        new UserIngredient()
-                        {
-                            UserId = 3,
-                            IngredientId = 5,
-                            IsAvailable = false
-                        },
-                        new UserIngredient()
-                        {
-                            UserId = 3,
-                            IngredientId = 6,
-                            IsAvailable = false
                         },
                     });
                     context.SaveChanges();
@@ -355,23 +247,13 @@ namespace DrinksMenuMVC.Data
                     {
                         new UserDrink()
                         {
-                            UserId = 1,
+                            AccountUserId = varX,
                             DrinkId = 1,
                         },
                         new UserDrink()
                         {
-                            UserId = 1,
+                            AccountUserId = varX,
                             DrinkId = 2,
-                        },
-                        new UserDrink()
-                        {
-                            UserId = 2,
-                            DrinkId = 2,
-                        },
-                        new UserDrink()
-                        {
-                            UserId = 3,
-                            DrinkId = 1,
                         },
                     });
                     context.SaveChanges();
@@ -379,5 +261,72 @@ namespace DrinksMenuMVC.Data
 
             }
         }
+
+        // used after adding new AccountUser / edit MyIngredients list
+        /*public static void SeedUI(IApplicationBuilder applicationBuilder)
+        {
+            using (var serviceScope = applicationBuilder.ApplicationServices.CreateScope())
+            {
+                var context = serviceScope.ServiceProvider.GetService<AccountsDbContext>();
+
+                context.Database.EnsureCreated();
+
+                // AccountUser id
+                string varX = "71e8b053-c79b-414d-b786-f5dd41b1d510";
+
+
+                // add relationship Users-Ingredients
+                if (!context.UserIngredients.Any())
+                {
+                    List<UserIngredient> myList = new();
+                    foreach(Ingredient item in IngredientsService)
+                    {
+
+                    }
+                    context.UserIngredients.AddRange(new List<UserIngredient>()
+                    {
+                        // for user with id 1
+                        new UserIngredient()
+                        {
+                            AccountUserId = varX,
+                            IngredientId = 1,
+                            IsAvailable = true
+                        },
+                        new UserIngredient()
+                        {
+                            AccountUserId = varX,
+                            IngredientId = 2,
+                            IsAvailable = true
+                        },
+                        new UserIngredient()
+                        {
+                            AccountUserId = varX,
+                            IngredientId = 3,
+                            IsAvailable = true
+                        },
+                        new UserIngredient()
+                        {
+                            AccountUserId = varX,
+                            IngredientId = 4,
+                            IsAvailable = true
+                        },
+                        new UserIngredient()
+                        {
+                            AccountUserId = varX,
+                            IngredientId = 5,
+                            IsAvailable = false
+                        },
+                        new UserIngredient()
+                        {
+                            AccountUserId = varX,
+                            IngredientId = 6,
+                            IsAvailable = true
+                        },
+                    });
+                    context.SaveChanges();
+                }
+               
+            }
+        }*/
     }
 }

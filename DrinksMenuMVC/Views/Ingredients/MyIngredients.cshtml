@@ -1,19 +1,86 @@
 ﻿@using DrinksMenuMVC.Data.ViewModels
 @model MyIngredientsViewModel
 
-<div class="offset-md-2">
-    <h2>My Ingredients</h2>
-    <form method="post" action="/Ingredients/Save" >
-        @foreach (var ingredient in Model.Ingredients)
-        {
-            @*bool isAvailable = true;*@
-            bool isAvailable = Model.IngredientAvailability[ingredient.IngredientId];
+<div class="offset-lg-2 offset-md-1 offset-1">
+    <form method="post" action="/Ingredients/Save">
 
-            <div style="margin-top:10px;margin-bottom:10px;" class="form-group form-check">
-                <input style="height:20px;width:20px;" id="@ingredient.IngredientId" type="checkbox" class="form-check-input" name="ingredients" value="@ingredient.IngredientId" checked="@isAvailable">
-                <label style="margin-left:8px;font-size:20px;" for="@ingredient.IngredientId" class="form-check-label" for="ingredient-@ingredient.IngredientId">@ingredient.IngredientName</label>
+        <div class="row">
+
+
+            <div class="col-md-4">
+                <br/>
+                <h3> Spirits </h3>
+                <hr/>
+                @foreach (var ingredient in Model.Ingredients.OrderBy(i => i.IngredientName))
+                {
+                    if(ingredient.IngredientType == IngredientType.Spirits)
+                    {
+                        bool isAvailable = Model.IngredientAvailability[ingredient.IngredientId];
+
+                    <div style="margin-top:10px;margin-bottom:10px;@ingredient.IngredientType px" class="form-group form-check">
+                        <input style="height:20px;width:20px;" id="@ingredient.IngredientId" type="checkbox" class="form-check-input" name="ids" value="@ingredient.IngredientId" checked="@isAvailable">
+                        <label style="margin-left:8px;font-size:20px;" for="@ingredient.IngredientId" class="form-check-label" for="ingredient-@ingredient.IngredientId">@ingredient.IngredientName</label>
+                    </div>
+                    }
+                    
+                }
             </div>
-        }
-        <button style="margin-top:10px;" type="submit" class="btn btn-primary">Save</button>
+
+            <div class="col-md-4">
+                 <br/>
+                <h3> Liqueurs </h3>
+                <hr/>
+                @foreach (var ingredient in Model.Ingredients.OrderBy(i => i.IngredientName))
+                {
+                    if(ingredient.IngredientType == IngredientType.Liqueurs)
+                    {
+                        bool isAvailable = Model.IngredientAvailability[ingredient.IngredientId];
+
+                    <div style="margin-top:10px;margin-bottom:10px;@ingredient.IngredientType px" class="form-group form-check">
+                        <input style="height:20px;width:20px;" id="@ingredient.IngredientId" type="checkbox" class="form-check-input" name="ids" value="@ingredient.IngredientId" checked="@isAvailable">
+                        <label style="margin-left:8px;font-size:20px;" for="@ingredient.IngredientId" class="form-check-label" for="ingredient-@ingredient.IngredientId">@ingredient.IngredientName</label>
+                    </div>
+                    }
+                }
+            </div>
+
+            <div class="col-md-4">
+                <br />
+                <h3> Fruits </h3>
+                <hr />
+                @foreach (var ingredient in Model.Ingredients.OrderBy(i => i.IngredientName))
+                {
+                    if (ingredient.IngredientType == IngredientType.Fruits)
+                    {
+                        bool isAvailable = Model.IngredientAvailability[ingredient.IngredientId];
+
+                        <div style="margin-top:10px;margin-bottom:10px;@ingredient.IngredientType px" class="form-group form-check">
+                            <input style="height:20px;width:20px;" id="@ingredient.IngredientId" type="checkbox" class="form-check-input" name="ids" value="@ingredient.IngredientId" checked="@isAvailable">
+                            <label style="margin-left:8px;font-size:20px;" for="@ingredient.IngredientId" class="form-check-label" for="ingredient-@ingredient.IngredientId">@ingredient.IngredientName</label>
+                        </div>
+                    }
+                }
+            </div>
+
+            <div class="col-md-4">
+                 <br/>
+                <h3> Other </h3>
+                <hr/>
+                @foreach (var ingredient in Model.Ingredients.OrderBy(i => i.IngredientName))
+                {
+                    if (ingredient.IngredientType == IngredientType.Other)
+                    {
+                        bool isAvailable = Model.IngredientAvailability[ingredient.IngredientId];
+
+                        <div style="margin-top:10px;margin-bottom:10px;@ingredient.IngredientType px" class="form-group form-check">
+                            <input style="height:20px;width:20px;" id="@ingredient.IngredientId" type="checkbox" class="form-check-input" name="ids" value="@ingredient.IngredientId" checked="@isAvailable">
+                            <label style="margin-left:8px;font-size:20px;" for="@ingredient.IngredientId" class="form-check-label" for="ingredient-@ingredient.IngredientId">@ingredient.IngredientName</label>
+                        </div>
+                    }
+                }
+            </div>
+
+        </div>
+        <button style="margin-top:30px;" type="submit" class="btn btn-primary btn-lg">Save</button>
     </form>
 </div>

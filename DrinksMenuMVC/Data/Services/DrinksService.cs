@@ -1,13 +1,14 @@
-﻿using DrinksMenuMVC.Models;
+﻿using DrinksMenuMVC.Areas.Identity.Data;
+using DrinksMenuMVC.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace DrinksMenuMVC.Data.Services
 {
     public class DrinksService : IDrinksService
     {
-        private readonly AppDbContext _context;
+        private readonly AccountsDbContext _context;
 
-        public DrinksService(AppDbContext context)
+        public DrinksService(AccountsDbContext context)
         {
             _context = context;
         }
@@ -28,15 +29,15 @@ namespace DrinksMenuMVC.Data.Services
             return result;
         }
 
-        public async Task<IEnumerable<Drink>> GetAllAvailableCards(int userId)
+        public async Task<IEnumerable<Drink>> GetAllAvailableCards(string userId)
         {
             // get the drink available for user with UserId = userId
             var availableDrinks = await _context.Drinks
-                .Include(u => u.User)
+                .Include(u => u.AccountUser)
                 .Include(d => d.DrinkIngredients)
                 .ThenInclude(di => di.Ingredient)
                 .Where(d => d.DrinkIngredients.All(di => _context.UserIngredients
-                    .Any(ui => ui.UserId == userId && ui.IngredientId == di.IngredientId && ui.IsAvailable)))
+                    .Any(ui => ui.AccountUserId == userId && ui.IngredientId == di.IngredientId && ui.IsAvailable)))
                 .ToListAsync();
 
 
@@ -45,15 +46,15 @@ namespace DrinksMenuMVC.Data.Services
             return availableDrinks;
         }
 
-        public async Task<IEnumerable<Drink>> GetAllUnavailableCards(int userId)
+        public async Task<IEnumerable<Drink>> GetAllUnavailableCards(string userId)
         {
             // get the drink available for user with UserId = userId
             var unavailableDrinks = await _context.Drinks
-                .Include(u => u.User)
+                .Include(u => u.AccountUser)
                 .Include(d => d.DrinkIngredients)
                 .ThenInclude(di => di.Ingredient)
                 .Where(d => d.DrinkIngredients.Any(di => !_context.UserIngredients
-                    .Any(ui => ui.UserId == userId && ui.IngredientId == di.IngredientId && ui.IsAvailable)))
+                    .Any(ui => ui.AccountUserId == userId && ui.IngredientId == di.IngredientId && ui.IsAvailable)))
                 .ToListAsync();
 
             return unavailableDrinks;

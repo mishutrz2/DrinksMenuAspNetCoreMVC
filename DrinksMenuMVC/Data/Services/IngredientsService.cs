@@ -1,12 +1,17 @@
-﻿using DrinksMenuMVC.Models;
+using DrinksMenuMVC.Areas.Identity.Data;
+using DrinksMenuMVC.Data.ViewModels;
+using DrinksMenuMVC.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Transactions;
 
 namespace DrinksMenuMVC.Data.Services
 {
     public class IngredientsService : IIngredientsService
     {
-        private readonly AppDbContext _context;
-        public IngredientsService(AppDbContext context)
+        private readonly AccountsDbContext _context;
+        public IngredientsService(AccountsDbContext context)
         {
             _context = context;
         }
@@ -26,24 +31,23 @@ namespace DrinksMenuMVC.Data.Services
             return await _context.Ingredients.Include(i => i.UserIngredients).ToListAsync();
         }
 
-        public async Task<IDictionary<int,bool>> GetAvailabilities(int userId)
+        public async Task<IDictionary<int, bool>> GetAvailabilities(string userId)
         {
-            var result = new Dictionary<int,bool>();
-            /* result.Add(1, true);
-            result.Add(2, true);
-            result.Add(3, false);
-            result.Add(4, false);
-            result.Add(5, true);
-            result.Add(6, true); */
+            var result = new Dictionary<int, bool>();
+
+            var tempVar = await _context.Ingredients
+            .Include(i => i.UserIngredients)
+            .ThenInclude(ui => ui.AccountUser)
+            .ToListAsync();
 
             var ingredientsPairs = await _context.Ingredients
             .Include(i => i.UserIngredients)
-            .ThenInclude(ui => ui.User)
-            .Where(i => i.UserIngredients.Any(ui => ui.UserId == userId))
+            .ThenInclude(ui => ui.AccountUser)
+            .Where(i => i.UserIngredients.Any(ui => ui.AccountUserId == userId))
             .Select(i => new
             {
                 IngredientId = i.IngredientId,
-                IsAvailable = i.UserIngredients.First(ui => ui.UserId == userId).IsAvailable
+                IsAvailable = i.UserIngredients.First(ui => ui.AccountUserId == userId).IsAvailable
             })
             .ToListAsync();
 
@@ -55,5 +59,42 @@ namespace DrinksMenuMVC.Data.Services
             return result;
         }
 
+        public async Task UpdateAvailable(List<int> myList, string userId)
+        {
+
+            // change stuff
+            var allUserIngredients = _context.UserIngredients.Where(ui => ui.AccountUserId == userId).ToList();
+            foreach(var userIngredient in allUserIngredients)
+            {
+                userIngredient.IsAvailable = false;
+            }
+            foreach (var userIngredient in allUserIngredients)
+            {
+                if (myList.Contains(userIngredient.IngredientId))
+                userIngredient.IsAvailable = true;
+            }
+
+            // start transaction
+            using (var transaction = _context.Database.BeginTransaction())
+            {
+                try
+                {
+                    _context.UserIngredients.UpdateRange(allUserIngredients);
+                    _context.SaveChanges();
+
+                    transaction.Commit();
+                }
+                catch (Exception)
+                {
+                    transaction.Rollback();
+                }
+            }
+
+
+        }
+
+
+
+        //end of class
     }
 }
