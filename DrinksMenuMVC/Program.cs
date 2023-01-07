@@ -3,6 +3,7 @@ using DrinksMenuMVC.Data.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using DrinksMenuMVC.Areas.Identity.Data;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,15 +27,9 @@ builder.Services.AddScoped<IIngredientsService, IngredientsService>();
 // Add services to the container.
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
-// CORS
-builder.Services.AddCors();
+// App build
 var app = builder.Build();
-app.UseCors(builder =>
-    {
-        builder.AllowAnyOrigin();
-        builder.AllowAnyHeader();
-        builder.AllowAnyMethod();
-    });
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -58,6 +53,7 @@ app.MapControllerRoute(
 
 // Seed database
 /*AppDbInitializer.Seed(app);*/
+
 
 app.MapRazorPages();
 

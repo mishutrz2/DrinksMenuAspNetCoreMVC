@@ -1,0 +1,72 @@
+﻿@using DrinksMenuMVC.Data.ViewModels
+@model AddDrinkViewModel
+
+<div class="offset-lg-2 offset-md-1 offset-1">
+    <br/>
+    <h3> Add a new drink </h3>
+    <br/><br />
+    <form method="post" action="/Drinks/Add">
+
+        <div class="row">
+
+            <div class="col-md-4">
+                <br />
+                <h3> Name </h3>
+                <input type="text" class="form-text-input" />
+            </div>
+
+            <div class="col-md-4">
+                <br />
+                <h3> Description </h3>
+                <input type="text" class="form-text-input" />
+            </div>
+
+        </div>
+        <br/>
+        <br />
+        <div class="row">
+            <div class="col-md-4">
+                <br />
+                <h3> Type </h3>
+                <input type="text" class="form-text-input" />
+            </div>
+
+            <div class="col-md-4">
+                <br />
+                <h3> Image url </h3>
+                <input type="text" class="form-text-input" />
+            </div>
+        </div>
+        <div class="row">
+
+
+            <div class="col-md-4" id="container">
+                <br /> <br/>
+                <div style="display: flex;">
+                    <h3 style="display: inline-block;"> Ingredients </h3>
+                    <button style="margin-left:25px; display: inline-block;" class="btn btn-secondary" type="button" id="addButton"> add </button>
+                </div>
+                <br/>
+            </div>
+
+        </div>
+        <button style="margin-top:30px;" type="submit" class="btn btn-primary btn-lg">Add</button>
+    </form>
+</div>
+
+
+<script>
+    var addButton = document.getElementById("addButton");
+    addButton.addEventListener("click", function () {
+        // Create a new text input field
+        var input = document.createElement("input");
+        var inputTwo = document.createElement("input");
+        input.type = "text";
+        inputTwo.type = "text";
+
+        // Add the new text input field to the container element
+        var container = document.getElementById("container");
+        container.appendChild(input);
+        container.appendChild(inputTwo);
+    });
+</script>

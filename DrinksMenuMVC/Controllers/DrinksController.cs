@@ -39,7 +39,7 @@ namespace DrinksMenuMVC.Controllers
             {
                 
             }
-
+            
             var availableCards = await _service.GetAllAvailableCards(userId);
             var unavailableCards = await _service.GetAllUnavailableCards(userId);
             return View(new Tuple<IEnumerable<Drink>, IEnumerable<Drink>>(availableCards, unavailableCards));
@@ -50,7 +50,7 @@ namespace DrinksMenuMVC.Controllers
             return View();
         }
 
-        [Authorize(Policy = "RequireContributorRole")]
+        /*[Authorize(Policy = "RequireContributorRole")]*/
         public IActionResult AddDrink()
         {
             return View();
