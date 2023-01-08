@@ -1,24 +1,24 @@
 ﻿@using DrinksMenuMVC.Data.ViewModels
-@model AddDrinkViewModel
+@model IngredientsAndTypeViewModel
 
 <div class="offset-lg-2 offset-md-1 offset-1">
     <br/>
     <h3> Add a new drink </h3>
     <br/><br />
-    <form method="post" action="/Drinks/Add">
+    <form id="addDrinkForm" method="post" action="/Drinks/Add">
 
         <div class="row">
 
             <div class="col-md-4">
                 <br />
                 <h3> Name </h3>
-                <input type="text" class="form-text-input" />
+                <input type="text" class="form-text-input" name="DrinkName" />
             </div>
 
             <div class="col-md-4">
                 <br />
                 <h3> Description </h3>
-                <input type="text" class="form-text-input" />
+                <input type="text" class="form-text-input" name="DrinkDescription"/>
             </div>
 
         </div>
@@ -28,13 +28,20 @@
             <div class="col-md-4">
                 <br />
                 <h3> Type </h3>
-                <input type="text" class="form-text-input" />
+                @*<label for="enumDropdown">Select an option:</label>*@
+                <select id="enumDropdown" asp-for="DrinkType" name="DrinkType">
+                    <option value="Cocktail">Cocktail</option>
+                    <option value="LongDrink">Long Drink</option>
+                    <option value="Shot">Shot</option>
+                    <option value="NonAlcoholic">Non Alcoholic</option>
+                    <option value="Other">Other</option>
+                </select>
             </div>
 
             <div class="col-md-4">
                 <br />
                 <h3> Image url </h3>
-                <input type="text" class="form-text-input" />
+                <input type="text" class="form-text-input" name="DrinkImageUrl" />
             </div>
         </div>
         <div class="row">
@@ -46,27 +53,35 @@
                     <h3 style="display: inline-block;"> Ingredients </h3>
                     <button style="margin-left:25px; display: inline-block;" class="btn btn-secondary" type="button" id="addButton"> add </button>
                 </div>
+                <h6> please dont repeat ingredients. i didn`t take care of this situation yet</h6>
+
                 <br/>
+                <div id="partialViewContainer" >  </div>
             </div>
 
         </div>
-        <button style="margin-top:30px;" type="submit" class="btn btn-primary btn-lg">Add</button>
+        <button style="margin-top:30px;" type="submit" class="btn btn-primary btn-lg">Add Drink</button>
     </form>
 </div>
 
 
-<script>
-    var addButton = document.getElementById("addButton");
-    addButton.addEventListener("click", function () {
-        // Create a new text input field
-        var input = document.createElement("input");
-        var inputTwo = document.createElement("input");
-        input.type = "text";
-        inputTwo.type = "text";
 
-        // Add the new text input field to the container element
-        var container = document.getElementById("container");
-        container.appendChild(input);
-        container.appendChild(inputTwo);
+<script>
+
+    var addButton = document.getElementById("addButton");
+    
+    // function for adding fields
+    addButton.addEventListener("click", function () {
+
+        var container = document.getElementById("partialViewContainer");
+
+        // for partial view part
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "/Drinks/GetPartialView");
+        xhr.onload = function () {
+            container.innerHTML += xhr.responseText;
+        };
+        xhr.send();
     });
+    
 </script>

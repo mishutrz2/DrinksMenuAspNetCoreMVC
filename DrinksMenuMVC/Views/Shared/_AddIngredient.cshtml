@@ -1,0 +1,32 @@
+﻿@using DrinksMenuMVC.Data.ViewModels
+@model IngredientsAndTypeViewModel
+
+<div class="row input-container">
+   <div class="col-md-4 input-field">
+        <select id="optionSelect" name="optionSelect">
+            @{
+                var ingredients = Model.Ingredients.OrderBy(e => e.IngredientName);
+            }
+            @foreach (var option in ingredients)
+            {
+                <option value="@option.IngredientId">@option.IngredientName</option>
+                
+            }
+        </select>
+   </div>
+    <div class="col-md-4 input-field">
+        <input type="text" class="form-text-input" placeholder="quantity"/>
+   </div>
+    
+</div>
+
+<style>
+    .input-field{
+        margin: 0px 70px 0px 0px;
+    }
+    .input-container {
+        padding: 10px 10px 10px 0px;
+        display: flex;
+        align-items: center;
+    }
+</style>

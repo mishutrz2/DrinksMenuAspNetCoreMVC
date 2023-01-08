@@ -11,5 +11,7 @@ namespace DrinksMenuMVC.Data.Services
         void Add(Drink drink);
         Drink Update(int id, Drink newDrink);
         void Delete(int id);
+        Task AddDrink(Drink drink, string userId);
+        Task AddDrinkIngredients(string drinkName, IEnumerable<int> ingredientsIds);
     }
 }

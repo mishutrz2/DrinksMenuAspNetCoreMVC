@@ -69,5 +69,57 @@ namespace DrinksMenuMVC.Data.Services
         {
             throw new NotImplementedException();
         }
+
+        public async Task AddDrink(Drink myDrink, string userId)
+        {
+            Drink finalDrink = myDrink;
+            finalDrink.AccountUserId = userId;
+
+            using (var transaction = _context.Database.BeginTransaction())
+            {
+                try
+                {
+                    _context.Drinks.Add(finalDrink);
+                    _context.SaveChanges();
+
+                    transaction.Commit();
+                }
+                catch (Exception)
+                {
+                    transaction.Rollback();
+                }
+            }
+
+            
+        }
+
+        public async Task AddDrinkIngredients(string drinkName, IEnumerable<int> ingredientsIds)
+        {
+            int drinkId = _context.Drinks.Where(e => e.DrinkName == drinkName).FirstOrDefault().DrinkId;
+
+            using (var transaction = _context.Database.BeginTransaction())
+            {
+                try
+                {
+                    foreach(var id in ingredientsIds)
+                    {
+                        _context.DrinkIngredients.Add(new DrinkIngredient()
+                        {
+                            DrinkId= drinkId,
+                            IngredientId = id,
+                            Amount = "not yet implemented"
+                        });
+                    }
+                    _context.SaveChanges();
+
+                    transaction.Commit();
+                }
+                catch (Exception)
+                {
+                    transaction.Rollback();
+                }
+            }
+        }
+
     }
 }
