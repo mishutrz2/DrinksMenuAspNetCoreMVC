@@ -50,13 +50,11 @@ namespace DrinksMenuMVC.Controllers
             AccountUser accountUser = await _userManager.GetUserAsync(User);
             string userId = accountUser.Id;
 
-            // model.IsChecked will contain the value of the checkbox
             // Save the model and redirect to another page
             await _service.UpdateAvailable(myIngredientsViewModel.Ids, userId);
             Console.WriteLine(myIngredientsViewModel);
             return View();
         }
-
 
         // end of class
     }
