@@ -50,7 +50,7 @@ namespace DrinksMenuMVC.Controllers
             AccountUser accountUser = await _userManager.GetUserAsync(User);
             string userId = accountUser.Id;
 
-            // Save the model and redirect to another page
+            // Save the model and redirect to another page 
             await _service.UpdateAvailable(myIngredientsViewModel.Ids, userId);
             Console.WriteLine(myIngredientsViewModel);
             return View();
