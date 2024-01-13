@@ -54,7 +54,6 @@ namespace DrinksMenuMVC.Controllers
             return View();
         }
 
-        /*[Authorize(Policy = "RequireContributorRole")]*/
         public async Task<IActionResult> AddDrink()
         {
             IngredientsAndTypeViewModel ingredients = new IngredientsAndTypeViewModel()
